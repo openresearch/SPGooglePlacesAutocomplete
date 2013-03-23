@@ -13,19 +13,23 @@
 @property (nonatomic, strong, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSString *reference;
 @property (nonatomic, strong, readwrite) NSString *identifier;
+@property (nonatomic, readwrite) NSRange matchedRange;
+@property (nonatomic, strong, readwrite) NSArray *components;
 @property (nonatomic, readwrite) SPGooglePlacesAutocompletePlaceType type;
 @end
 
 @implementation SPGooglePlacesAutocompletePlace
 
-@synthesize name, reference, identifier, type;
+@synthesize name, reference, identifier, type, matchedRange;
 
 + (SPGooglePlacesAutocompletePlace *)placeFromDictionary:(NSDictionary *)placeDictionary {
     SPGooglePlacesAutocompletePlace *place = [[self alloc] init];
-    place.name = [placeDictionary objectForKey:@"description"];
-    place.reference = [placeDictionary objectForKey:@"reference"];
-    place.identifier = [placeDictionary objectForKey:@"id"];
+    place.name = placeDictionary[@"description"];
+    place.reference = placeDictionary[@"reference"];
+    place.identifier = placeDictionary[@"id"];
     place.type = SPPlaceTypeFromDictionary(placeDictionary);
+    place.matchedRange = NSMakeRange([placeDictionary[@"matched_substrings"][0][@"offset"] intValue], [placeDictionary[@"matched_substrings"][0][@"length"] intValue]);
+    place.components = [placeDictionary valueForKeyPath:@"terms.value"];
     return place;
 }
 

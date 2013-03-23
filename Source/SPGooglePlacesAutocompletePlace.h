@@ -37,6 +37,16 @@
 @property (nonatomic, strong, readonly) NSString *identifier;
 
 /*!
+ Contains the range of the "name" property matched by autocomplete.
+ */
+@property (nonatomic, readonly) NSRange matchedRange;
+
+/*!
+ Contains an array of the human-readable name broken into components. For example: ["Business Name", "Street Address", "City", "State", "Country"]
+ */
+@property (nonatomic, strong, readonly) NSArray *components;
+
+/*!
  Resolves the place to a CLPlacemark, issuing  Google Place Details request if needed.
  */
 - (void)resolveToPlacemark:(SPGooglePlacesPlacemarkResultBlock)block;
