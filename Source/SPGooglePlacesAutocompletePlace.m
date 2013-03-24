@@ -52,15 +52,24 @@
         if (error) {
             block(nil, nil, error);
         } else {
-            NSString *addressString = [placeDictionary objectForKey:@"formatted_address"];
-            [[self geocoder] geocodeAddressString:addressString completionHandler:^(NSArray *placemarks, NSError *error) {
+            CLGeocodeCompletionHandler geocodeHandler = ^(NSArray *placemarks, NSError *error) {
                 if (error) {
                     block(nil, nil, error);
                 } else {
                     CLPlacemark *placemark = [placemarks onlyObject];
                     block(placemark, self.name, error);
                 }
-            }];
+            };
+            
+            NSNumber *lat = [placeDictionary valueForKeyPath:@"geometry.location.lat"];
+            NSNumber *lng = [placeDictionary valueForKeyPath:@"geometry.location.lng"];
+            if (lat&&lng) {
+                CLLocation *location = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lng.doubleValue];
+                [[self geocoder] reverseGeocodeLocation:location completionHandler:geocodeHandler];
+            } else {
+                NSString *addressString = [placeDictionary objectForKey:@"formatted_address"];
+                [[self geocoder] geocodeAddressString:addressString completionHandler:geocodeHandler];
+            }
         }
     }];
 }
