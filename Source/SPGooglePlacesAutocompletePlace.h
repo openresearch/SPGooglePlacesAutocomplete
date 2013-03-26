@@ -10,7 +10,7 @@
 
 #import "SPGooglePlacesAutocompleteUtilities.h"
 
-@interface SPGooglePlacesAutocompletePlace : NSObject {
+@interface SPGooglePlacesAutocompletePlace : NSObject <NSCoding> {
     CLGeocoder *geocoder;
 }
 

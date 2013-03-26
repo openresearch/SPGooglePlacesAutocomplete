@@ -9,6 +9,14 @@
 #import "SPGooglePlacesAutocompletePlace.h"
 #import "SPGooglePlacesPlaceDetailQuery.h"
 
+#define kNSCodingKeyName @"name"
+#define kNSCodingKeyReference @"reference"
+#define kNSCodingKeyIdentifier @"id"
+#define kNSCodingKeyType @"type"
+#define kNSCodingKeyMatchedRangeLoc @"matchedRangeLoc"
+#define kNSCodingKeyMatchedRangeLen @"matchedRangeLen"
+#define kNSCodingKeyComponents @"components"
+
 @interface SPGooglePlacesAutocompletePlace()
 @property (nonatomic, strong, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSString *reference;
@@ -20,7 +28,7 @@
 
 @implementation SPGooglePlacesAutocompletePlace
 
-@synthesize name, reference, identifier, type, matchedRange;
+@synthesize name, reference, identifier, type, matchedRange, components;
 
 + (SPGooglePlacesAutocompletePlace *)placeFromDictionary:(NSDictionary *)placeDictionary {
     SPGooglePlacesAutocompletePlace *place = [[self alloc] init];
@@ -92,6 +100,29 @@
     } else {
         [self resolveEstablishmentPlaceToPlacemark:block];
     }
+}
+
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    SPGooglePlacesAutocompletePlace *place = [[SPGooglePlacesAutocompletePlace alloc] init];
+    place.name = [aDecoder decodeObjectForKey:kNSCodingKeyName];
+    place.reference = [aDecoder decodeObjectForKey:kNSCodingKeyReference];
+    place.identifier = [aDecoder decodeObjectForKey:kNSCodingKeyIdentifier];
+    place.type = [aDecoder decodeIntForKey:kNSCodingKeyType];
+    place.matchedRange = NSMakeRange([aDecoder decodeIntForKey:kNSCodingKeyMatchedRangeLoc], [aDecoder decodeIntForKey:kNSCodingKeyMatchedRangeLen]);
+    place.components = [aDecoder decodeObjectForKey:kNSCodingKeyComponents];
+    return place;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:name forKey:kNSCodingKeyName];
+    [aCoder encodeObject:reference forKey:kNSCodingKeyReference];
+    [aCoder encodeObject:identifier forKey:kNSCodingKeyIdentifier];
+    [aCoder encodeInt:type forKey:kNSCodingKeyType];
+    [aCoder encodeInt:matchedRange.location forKey:kNSCodingKeyMatchedRangeLoc];
+    [aCoder encodeInt:matchedRange.length forKey:kNSCodingKeyMatchedRangeLen];
+    [aCoder encodeObject:components forKey:kNSCodingKeyComponents];
 }
 
 
