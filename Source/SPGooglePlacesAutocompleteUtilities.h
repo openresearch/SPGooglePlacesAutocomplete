@@ -8,14 +8,14 @@
 
 #define kGoogleAPINSErrorCode 42
 
-@class CLPlacemark;
+@class SPGooglePlacesPlacemark;
 
 typedef enum {
     SPPlaceTypeGeocode = 0,
     SPPlaceTypeEstablishment
 } SPGooglePlacesAutocompletePlaceType;
 
-typedef void (^SPGooglePlacesPlacemarkResultBlock)(CLPlacemark *placemark, NSString *addressString, NSError *error);
+typedef void (^SPGooglePlacesPlacemarkResultBlock)(SPGooglePlacesPlacemark *placemark, NSString *addressString, NSError *error);
 typedef void (^SPGooglePlacesAutocompleteResultBlock)(NSArray *places, NSError *error);
 typedef void (^SPGooglePlacesPlaceDetailResultBlock)(NSDictionary *placeDictionary, NSError *error);
 

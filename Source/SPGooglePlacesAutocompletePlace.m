@@ -8,6 +8,7 @@
 
 #import "SPGooglePlacesAutocompletePlace.h"
 #import "SPGooglePlacesPlaceDetailQuery.h"
+#import "SPGooglePlacesPlacemark.h"
 
 #define kNSCodingKeyName @"name"
 #define kNSCodingKeyReference @"reference"
@@ -60,23 +61,18 @@
         if (error) {
             block(nil, nil, error);
         } else {
-            CLGeocodeCompletionHandler geocodeHandler = ^(NSArray *placemarks, NSError *error) {
-                if (error) {
-                    block(nil, nil, error);
-                } else {
-                    CLPlacemark *placemark = [placemarks onlyObject];
-                    block(placemark, self.name, error);
-                }
-            };
-            
-            NSNumber *lat = [placeDictionary valueForKeyPath:@"geometry.location.lat"];
-            NSNumber *lng = [placeDictionary valueForKeyPath:@"geometry.location.lng"];
-            if (lat&&lng) {
-                CLLocation *location = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lng.doubleValue];
-                [[self geocoder] reverseGeocodeLocation:location completionHandler:geocodeHandler];
+            SPGooglePlacesPlacemark *placemark = [[SPGooglePlacesPlacemark alloc] initWithPlaceDictionary:placeDictionary];
+            if (placemark.location) {
+                block(placemark, self.name, error);
             } else {
-                NSString *addressString = [placeDictionary objectForKey:@"formatted_address"];
-                [[self geocoder] geocodeAddressString:addressString completionHandler:geocodeHandler];
+                [[self geocoder] geocodeAddressString:placemark.addressString completionHandler:^(NSArray *placemarks, NSError *error) {
+                    if (error) {
+                        block(nil, nil, error);
+                    } else {
+                        SPGooglePlacesPlacemark *newPlacemark = [[SPGooglePlacesPlacemark alloc] initWithCLPlacemark:[placemarks onlyObject]];
+                        block(newPlacemark, self.name, error);
+                    }
+                }];
             }
         }
     }];
@@ -87,7 +83,7 @@
         if (error) {
             block(nil, nil, error);
         } else {
-            CLPlacemark *placemark = [placemarks onlyObject];
+            SPGooglePlacesPlacemark *placemark = [[SPGooglePlacesPlacemark alloc] initWithCLPlacemark:[placemarks onlyObject]];
             block(placemark, self.name, error);
         }
     }];

@@ -7,6 +7,7 @@
 //
 
 #import "SPGooglePlacesAutocompleteUtilities.h"
+#import "SPGooglePlacesPlacemark.h"
 
 @implementation NSArray(SPFoundationAdditions)
 - (id)onlyObject {
