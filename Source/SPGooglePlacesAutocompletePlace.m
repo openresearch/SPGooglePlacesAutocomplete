@@ -81,7 +81,7 @@
 - (void)resolveGecodePlaceToPlacemark:(SPGooglePlacesPlacemarkResultBlock)block {
     [[self geocoder] geocodeAddressString:self.name completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error) {
-            block(nil, nil, error);
+            [self resolveEstablishmentPlaceToPlacemark:block];
         } else {
             SPGooglePlacesPlacemark *placemark = [[SPGooglePlacesPlacemark alloc] initWithCLPlacemark:[placemarks onlyObject]];
             block(placemark, self.name, error);
