@@ -37,7 +37,7 @@
     place.reference = placeDictionary[@"reference"];
     place.identifier = placeDictionary[@"id"];
     place.type = SPPlaceTypeFromDictionary(placeDictionary);
-    place.matchedRange = NSMakeRange([placeDictionary[@"matched_substrings"][0][@"offset"] intValue], [placeDictionary[@"matched_substrings"][0][@"length"] intValue]);
+    place.matchedRange = [placeDictionary[@"matched_substrings"] count]?NSMakeRange([placeDictionary[@"matched_substrings"][0][@"offset"] intValue], [placeDictionary[@"matched_substrings"][0][@"length"] intValue]):NSMakeRange(0, 0);
     place.components = [placeDictionary valueForKeyPath:@"terms.value"];
     return place;
 }
