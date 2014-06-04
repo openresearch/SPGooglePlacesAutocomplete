@@ -116,8 +116,8 @@
     [aCoder encodeObject:reference forKey:kNSCodingKeyReference];
     [aCoder encodeObject:identifier forKey:kNSCodingKeyIdentifier];
     [aCoder encodeInt:type forKey:kNSCodingKeyType];
-    [aCoder encodeInt:matchedRange.location forKey:kNSCodingKeyMatchedRangeLoc];
-    [aCoder encodeInt:matchedRange.length forKey:kNSCodingKeyMatchedRangeLen];
+    [aCoder encodeInt:(int)matchedRange.location forKey:kNSCodingKeyMatchedRangeLoc];
+    [aCoder encodeInt:(int)matchedRange.length forKey:kNSCodingKeyMatchedRangeLen];
     [aCoder encodeObject:components forKey:kNSCodingKeyComponents];
 }
 

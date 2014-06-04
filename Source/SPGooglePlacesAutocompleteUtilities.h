@@ -11,7 +11,8 @@
 @class SPGooglePlacesPlacemark;
 
 typedef enum {
-    SPPlaceTypeGeocode = 0,
+    SPPlaceTypeUnknown = -1,
+    SPPlaceTypeGeocode,
     SPPlaceTypeEstablishment
 } SPGooglePlacesAutocompletePlaceType;
 
