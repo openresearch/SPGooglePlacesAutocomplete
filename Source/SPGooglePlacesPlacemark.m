@@ -70,7 +70,9 @@
             CLLocationDistance radius = [northeast distanceFromLocation:southwest]/2.0;
             CLLocationCoordinate2D center = CLLocationCoordinate2DMake((northeast.coordinate.latitude+southwest.coordinate.latitude)/2.0, (northeast.coordinate.longitude+southwest.coordinate.longitude)/2.0);
             
-            _region = [[CLRegion alloc] initCircularRegionWithCenter:center radius:radius identifier:[NSString stringWithFormat:@"(%f, %f) Radius: %fm",center.latitude, center.longitude, radius]];
+            _region = [[CLCircularRegion alloc] initWithCenter:center
+                                                        radius:radius
+                                                    identifier:[NSString stringWithFormat:@"(%f, %f) Radius: %fm",center.latitude, center.longitude, radius]];
         }
         
         _name = placeDictionary[@"name"];
