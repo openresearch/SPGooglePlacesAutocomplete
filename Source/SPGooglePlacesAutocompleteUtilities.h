@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Stephen Poletto. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 #define kGoogleAPINSErrorCode 42
 
 @class SPGooglePlacesPlacemark;
