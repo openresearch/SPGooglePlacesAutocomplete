@@ -7,6 +7,7 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
 
 #import "SPGooglePlacesAutocompleteUtilities.h"
 
