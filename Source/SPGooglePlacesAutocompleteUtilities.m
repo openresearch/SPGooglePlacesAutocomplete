@@ -29,6 +29,7 @@ NSString *SPPlaceTypeStringForPlaceType(SPGooglePlacesAutocompletePlaceType type
     return (type == SPPlaceTypeGeocode) ? @"geocode" : @"establishment";
 }
 
+#ifndef TARGET_IS_EXTENSION // if it's not defined
 BOOL SPEnsureGoogleAPIKey() {
     BOOL userHasProvidedAPIKey = YES;
     if ([kGoogleAPIKey isEqualToString:@"YOUR_API_KEY"]) {
@@ -38,10 +39,13 @@ BOOL SPEnsureGoogleAPIKey() {
     }
     return userHasProvidedAPIKey;
 }
+#endif
 
 void SPPresentAlertViewWithErrorAndTitle(NSError *error, NSString *title) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-    [alert show];
+    #ifndef TARGET_IS_EXTENSION // if it's not defined
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+    #endif
 }
 
 extern BOOL SPIsEmptyString(NSString *string) {
